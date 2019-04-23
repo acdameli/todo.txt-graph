@@ -75,7 +75,7 @@ class Colors(object):
 
     def __getattr__(self,key):
         if key not in CCODES.keys():
-            raise AttributeError, "Colors object has no attribute '%s'" % key
+            raise AttributeError("Colors object has no attribute '%s'" % key)
         else:
             if self.disabled:
                 return lambda x: x
@@ -130,7 +130,7 @@ def main(todo_file, done_file, cutoffDays = 7):
         with open(filename, 'r') as f:
             lines.extend(f.readlines())
     today = datetime.datetime.today()
-    cutoff =  today - datetime.timedelta(days=cutoffDays)
+    cutoff = today - datetime.timedelta(days=cutoffDays)
     dic = initialize_dic(cutoffDays)
 
     for line in lines:
@@ -140,7 +140,6 @@ def main(todo_file, done_file, cutoffDays = 7):
             year, month, day = m.group(1).split("-")
             completed = datetime.datetime(int(year),int(month),int(day))
             if completed >= cutoff:
-                #print c.green(m.group(1)) + " " + c.blue(line.replace("x %s" % m.group(1), "").strip())
                 if m.group(1) in dic:
                     oldVal = dic.get(m.group(1), 1)
                     dic.update({m.group(1): oldVal+1})
@@ -149,7 +148,7 @@ def main(todo_file, done_file, cutoffDays = 7):
 
     # find out max value
     max = 0
-    for key, value in dic.iteritems():
+    for key, value in dic.items():
         if value > max:
             max = value
 
@@ -160,7 +159,7 @@ def main(todo_file, done_file, cutoffDays = 7):
 
     # display graph
     print()
-    for key, value in orderedDic.iteritems():
+    for key, value in orderedDic.items():
         print_blocks(key, value, step)
     print()
 
@@ -173,7 +172,7 @@ if __name__ == '__main__':
     if os.path.isfile(sys.argv[1]) and os.path.isfile(sys.argv[2]):
         if len(sys.argv) is 4:
             main(sys.argv[1], sys.argv[2], int(sys.argv[3]))
-	else:
+        else:
             main(sys.argv[1], sys.argv[2])
     else:
         print("Error: %s or %s doesn't exist" % (sys.argv[1], sys.argv[2]))
